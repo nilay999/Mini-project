@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Record Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .record-box {
+            background: #eef;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>Student Record Management</header>
+
+    <div class="container">
+        <h3>Add Student</h3>
+        <input type="number" id="roll" placeholder="Roll Number" />
+        <input type="text" id="name" placeholder="Name" />
+        <input type="number" id="marks" placeholder="Marks" />
+        <button onclick="addStudent()">Add Student</button>
+
+        <h3>Search Student</h3>
+        <input type="number" id="searchRoll" placeholder="Enter Roll to Search" />
+        <button onclick="searchStudent()">Search</button>
+        <div id="searchResult" class="record-box"></div>
+
+        <h3>Update Student</h3>
+        <input type="number" id="updateRoll" placeholder="Roll to Update" />
+        <input type="text" id="newName" placeholder="New Name" />
+        <input type="number" id="newMarks" placeholder="New Marks" />
+        <button onclick="updateStudent()">Update</button>
+        <div id="updateResult" class="record-box"></div>
+    </div>
+
+    <script>
+        let students = [];
+
+        function addStudent() {
+            let roll = document.getElementById("roll").value;
+            let name = document.getElementById("name").value;
+            let marks = document.getElementById("marks").value;
+
+            if (roll === '' || name === '' || marks === '') {
+                alert("Please fill all fields.");
+                return;
+            }
+
+            students.push({ roll: Number(roll), name, marks: Number(marks) });
+            alert("Student Added Successfully!");
+        }
+
+        function searchStudent() {
+            let roll = Number(document.getElementById("searchRoll").value);
+            let result = students.find(s => s.roll === roll);
+
+            if (result) {
+                document.getElementById("searchResult").innerHTML = 
+                    `Roll: ${result.roll}<br>Name: ${result.name}<br>Marks: ${result.marks}`;
+            } else {
+                document.getElementById("searchResult").innerHTML = "No student found.";
+            }
+        }
+
+        function updateStudent() {
+            let roll = Number(document.getElementById("updateRoll").value);
+            let newName = document.getElementById("newName").value;
+            let newMarks = document.getElementById("newMarks").value;
+
+            let index = students.findIndex(s => s.roll === roll);
+
+            if (index !== -1) {
+                if (newName !== '') students[index].name = newName;
+                if (newMarks !== '') students[index].marks = Number(newMarks);
+
+                document.getElementById("updateResult").innerHTML = "Record Updated!";
+            } else {
+                document.getElementById("updateResult").innerHTML = "No student found.";
+            }
+        }
+    </script>
+</body>
+</html>
